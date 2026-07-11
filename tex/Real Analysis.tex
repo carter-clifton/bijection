@@ -1,0 +1,812 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{Real Analysis}}
+\rhead{\textbf{Theorems, Lemmas, Corollaries, Propositions, etc.}}
+\lfoot{\textbf{St. Francis Xavier University}}
+\rfoot{\textbf{Carter Clifton}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\tcbset{
+    grayscalebox/.style={
+        enhanced,
+        sharp corners,
+        colback=gray!5,
+        colframe=black!10,
+        boxrule=0.4pt,
+        left=1em,
+        right=1em,
+        top=0.5em,
+        bottom=0.5em,
+        fonttitle=\bfseries\normalsize,
+        coltitle=black,
+        before skip=10pt,
+        after skip=10pt
+    }
+}
+
+\newtcbtheorem[no counter]{theorem}{Theorem}{grayscalebox}{th}
+\newtcbtheorem[no counter]{lemma}{Lemma}{grayscalebox}{lem}
+\newtcbtheorem[no counter]{corollary}{Corollary}{grayscalebox}{cor}
+\newtcbtheorem[no counter]{proposition}{Proposition}{grayscalebox}{prop}
+\newtcbtheorem[no counter]{definition}{Definition}{grayscalebox}{def}
+\newtcbtheorem[no counter]{example}{Example}{grayscalebox}{ex}
+\newtcbtheorem[no counter]{remark}{Remark}{grayscalebox}{rem}
+\newtcbtheorem[no counter]{properties}{Properties}{grayscalebox}{prop}
+\newtcbtheorem[no counter]{porism}{Porism}{grayscalebox}{por}
+\newtcbtheorem[no counter]{laws}{Laws}{grayscalebox}{law}
+\newtcbtheorem[no counter]{note}{Note}{grayscalebox}{note}
+\newtcbtheorem[no counter]{fact}{Fact}{grayscalebox}{fact}
+
+\newcommand{\horrule}{\noindent\rule{\linewidth}{0.4pt}\newline}
+
+\begin{document}
+
+\begin{definition}{Set}{}
+    A set is an unordered collection of distinct objects which are called elements. A set must be well defined.
+\end{definition}
+\begin{definition}{Well Defined}{}
+    A set is well defined if when given an object, you can determine if the object is in the set or not.
+\end{definition}
+\begin{definition}{Injective / One-to-one / 1-1}{}
+    A function $ f : A \to B $ is injective if $ f(a) = f(b) $ forces $ a = b $.
+\end{definition}
+\begin{remark}{When is a function not injective?}{}
+    A function is not injective when there exists $ a, b $ with $ f(a) = f(b) $, and $ a \neq b $.
+\end{remark}
+\begin{definition}{Surjective / Onto}{}
+    A function $ f : A \to B $ is surjective if $ f(A) = B $ (Note that $ f(A) $ is the image, $ f(A) = \left\{ f(a) : a \in A \right\} $). That is, for all $ b \in B $, there exists $ a \in A $ with $ f(a) = b $.
+\end{definition}
+\begin{remark}{When is a function not surjective?}{}
+    A function is not surjective when there exists $ b \in B $ such that for all $ a \in A $, $ f(a) \neq b $.
+\end{remark}
+\begin{definition}{Image of a subset}{}
+    Suppose $ f : X \to Y $, and let $ A \subseteq X $. The image of the subset $ A $ is the set obtained by applying the function $ f $ to every element of $ A $. This is denoted by $ f(A) $.
+    \[ f(A) = \left\{ f(a) : a \in A \right\} \]
+\end{definition}
+\begin{definition}{Preimage of a Subset}{}
+    Suppose $ f : X \to Y $, and let $ B \subseteq Y $. The preimage of $ B $ is everything in $ X $ that gets mapped to $ B $ by $ f $. This is denoted by $ f^{-1}(B) $.
+    \[ f^{-1}(B) = \left\{ x \in X : f(x) \in B \right\} \subseteq X \]
+\end{definition}
+\begin{definition}{Bijection}{}
+    A function that is both injective and surjective is a bijection. This means that every element in $ A $ gets mapped to a unique element in $ B $, and everything in $ B $ has a solution in $ A $. If we have $ f : X \to Y $, and $ f $ is a bijection, then we can define an inverse function $ f^{-1} : B \to A $ where $ f^{-1} (b) = a \Leftrightarrow f(a) = b $.
+\end{definition}
+\begin{definition}{Field}{}
+    A field is a nonempty set $ \mathbb{F} $ along with 2 binary operations, addition ($ + $) and multiplication ($ \cdot $), satisfying the following axioms:
+    \begin{enumerate}
+        \item If $ a, b \in \mathbb{F} $, then
+        \begin{equation*}
+            \begin{rcases*}
+                a + b = b + a \\
+                a \cdot b = b \cdot a
+            \end{rcases*}
+            \text{ Operations are commutative}
+        \end{equation*}
+        \item If $ a, b, c \in \mathbb{F} $, then
+        \[ a \cdot \left( b + c \right) = a \cdot b + a \cdot c \qquad \text{Distributive property} \]
+        \item If $ a, b, c \in \mathbb{F} $, then
+        \begin{equation*}
+            \begin{rcases*}
+                a + \left( b + c \right) = \left( a + b \right) + c \\
+                a \cdot \left( b \cdot c \right) = \left( a \cdot b \right) \cdot c
+            \end{rcases*}
+            \text{ Operations are associative}
+        \end{equation*}
+        \item There are elements $ 0, 1 \in \mathbb{F} $ such that for all $ a \in \mathbb{F} $:
+        \begin{align*}
+            a + 0 & = a \qquad \text{0 is the additive identity} \\
+            a \cdot 1 &= a \qquad \text{1 is the multiplicative identity}
+        \end{align*}
+        \item For each $ a \in \mathbb{F} $ there is $ -a \in \mathbb{F} $ such that:
+        \[ a + \left( -a \right) = 0 \qquad \text{Additive inverse} \]
+        For each $ a \in \mathbb{F} $ with $ a \neq 0 $, there is $ a^{-1} \in \mathbb{F} $ such that:
+        \[ a \cdot a^{-1} = 1 \qquad \text{Multiplicative inverse} \]
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Ordered Field}{}
+    An ordered field is a field $ \mathbb{F} $ along with:
+    \begin{enumerate}
+        \setcounter{enumi}{5}
+        \item There is a nonempty subset $ P \subset \mathbb{F} $ called the positive elements such that:
+        \begin{enumerate}
+            \item If $ a, b \in P $ then $ a + b \in P $ and $ a \cdot b \in P $
+            \item If $ a \in \mathbb{F} $ and $ a \neq 0 $, then $ a \in P $ or $ -a \in P $ but not both. (This is called order)
+            \medskip
+            \newline
+            0 is its own inverse, so $ 0 = -0 $. For all $ a \neq 0 $, $ a \neq -a $ so $ 0 \notin P $.
+        \end{enumerate}
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Order Relation}{}
+    Let $ \mathbb{F} $ be an ordered field with $ a, b \in \mathbb{F} $. We say ``$ a < b $'' ($ a $ is less than $ b $) if $ b - a \in P $, and ``$ a \leq b  $'' ($ a $ is less than or equal to $ b $) if either $ a = b $ or $ a < b $.
+\end{definition}
+\begin{definition}{Absolute Value}{}
+    If $ \mathbb{F} $ is an ordered field, define the absolute value function $ | \quad | : \mathbb{F} \to \mathbb{F} $.
+    \[ | x | = \begin{cases}
+        x \quad \ \ \; \text{if } x \geq 0 \\
+        -x \quad \text{if } x < 0
+    \end{cases} \]
+\end{definition}
+\begin{proposition}{}{}
+    If $ \mathbb{F} $ is an ordered field and $ a,b \in \mathbb{F} $, then $ |a| \leq b $ if and only if $ -b \leq a \leq b $.
+\end{proposition}
+\begin{theorem}{The Triangle Inequality}{}
+    If $ x, y \in \mathbb{F} $, then
+    \[ | x + y | \leq | x | + | y | \]
+\end{theorem}
+\begin{corollary}{Reverse Triangle Inequality}{}
+    \[ \left| \left| x \right| - \left| y \right| \right| \leq | x - y | \]
+\end{corollary}
+\begin{corollary}{}{}
+    \[ | x - y | \leq | x | + | y | \]
+\end{corollary}
+\begin{corollary}{}{}
+    \[ | x + y | \geq \left| | x | - | y | \right| \]
+\end{corollary}
+\begin{definition}{Distance Function / Metric}{}
+    A function $ d : \mathbb{F} \times \mathbb{F} \to \mathbb{F} $ is called a distance function, or metric, if it satisfies:
+    \begin{enumerate}
+        \item $ d(x, y) \geq 0 $
+        \item $ d(x, y) = 0 $ if and only if $ x = y $
+        \item $ d(x, y) = d(y, x) $ (symmetry)
+        \item $ d(x, z) \leq d(x, y) + d(y, z) $
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Metric Spaces}{}
+    A metric space is a space that has a metric. This allows us to talk about limits and continuity in terms of the metric.
+\end{definition}
+\begin{definition}{Bounds}{}
+    Let $ S $ be an ordered field, and let $ A \subseteq S $ be nonempty.
+    \begin{enumerate}[label=(\roman*)]
+        \item $ A $ is bounded above if $ \exists b \in S $ such that $ \forall x \in A $, $ x \leq b $. $ b $ is called an upper bound of $ A $.
+        \item The least upper bound of $ A $ (if it exists) is some $ b_0 \in S $ such that $ b_0 $ is an upper bound of $ A $, and if $ b $ is any other upper bound of $ A $, then $ b_0 \leq b $. $ b_0 $ is called the supremum of $ A $, denoted by $ \sup (A) $.
+        \item $ A $ is bounded below if $ \exists c \in S $ such that $ \forall x \in A $, $ c \leq x $. $ c $ is called a lower bound of $ A $.
+        \item The greatest lower bound of $ A $ (if it exists) is some $ c_0 \in S $ such that $ c_0 $ is a lower bound of $ A $, and if $ c $ is any other lower bound of $ A $, then $ c_0 \geq c $. $ c_0 $ is called the infimum of $ A $, denoted by $ \inf (A) $.
+        \item If a set is both bounded above and bounded below, the set is called bounded.
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Least Upper Bound Property}{}
+    Let $ S $ be an ordered field, then $ S $ has the least upper bound property if given any nonempty set, $ A \subseteq S $ where $ A $ is bounded above, $ A $ has a least upper bound in $ S $. That is, $ \sup(A) \in S $ exists.
+    \medskip
+    \newline
+    A set that has the least upper bound property is complete.
+\end{definition}
+\begin{theorem}{Existence and Uniqueness of $ \mathbb{R} $}{}
+    There exists a unique complete ordered field, we call this field the real numbers.
+    \medskip
+    \newline
+    We could relabel the elements, but the field would be isomorphic. The construction uses Dedekind cuts.
+\end{theorem}
+\begin{proposition}{Uniqueness of the sup and inf}{}
+    If $ \sup(A) $ or $ \inf(A) $ of some $ A \subseteq \mathbb{R} $ exists, it is unique.
+\end{proposition}
+\begin{theorem}{Supremum and Infimum Characterization}{}
+    Let $ A \subseteq \mathbb{R} $, $ \sup(A) = \alpha $ if and only if:
+    \begin{enumerate}[label=(\roman*)]
+        \item $ \alpha $ is an upper bound of $ A $
+        \item Given any $ \varepsilon > 0 $, $ \sup(A) - \varepsilon = \alpha - \varepsilon $ is not an upper bound of $ A $. That is, there is some $ x \in A $ such that $ \alpha - \varepsilon < x $.
+    \end{enumerate}
+    Likewise, $ \inf(A) = \beta $ if and only if:
+    \begin{enumerate}[label=(\roman*)]
+        \item $ \beta $ is a lower bound of $ A $
+        \item Given any $ \varepsilon > 0 $, $ \inf(A) + \varepsilon = \beta + \varepsilon $ is not a lower bound of $ A $. That is, there is some $ x \in A $ such that $ x < \beta + \varepsilon $.
+    \end{enumerate}
+\end{theorem}
+\begin{lemma}{Archimedean Principle}{}
+    If $ a, b \in \mathbb{R} $ with $ a > 0 $ then there exists a rational number $ n $ such that
+    \[ na > b \Leftrightarrow n > \frac{b}{a} \]
+\end{lemma}
+\begin{definition}{Dense Sets}{}
+    Suppose $ A $ and $ B $ are subsets of ordered fields. Then $ A $ is dense in $ B $ if for every $ x,y \in B $ with $ x < y $, there exists $ a \in A $ such that $ x < a < y $.
+\end{definition}
+\begin{definition}{Maximal and Minimal Elements}{}
+    Let $ A \subseteq \mathbb{R} $, $ A $ has a maximal element if there exists $ M \in A $ such that $ x \leq M $ for all $ x \in A $.
+    \newline
+    \medskip
+    Likewise, $ A $ has a minimal element if there exists $ m \in A $ such that $ m \leq x $ for all $ x \in A $.
+\end{definition}
+\begin{lemma}{}{}
+    Let $ x, y \in \mathbb{R} $, where $ y - x > 1 $. Then, there exists a $ z \in \mathbb{Z} $ such that $ x < z < y $.
+\end{lemma}
+\begin{theorem}{}{}
+    $ \mathbb{Q} $ is dense in $ \mathbb{R} $.
+\end{theorem}
+\begin{definition}{Ceiling}{}
+    The ceiling of $ x $, denoted $ \lceil x \rceil $ is the integer $ n $ such that
+    \[ x \leq n < x + 1 \]
+\end{definition}
+\begin{definition}{Floor}{}
+    The floor of $ x $, denoted $ \lfloor x \rfloor $ is the integer $ n $ such that
+    \[ x - 1 < n \leq x \]
+\end{definition}
+\begin{definition}{Closed Interval}{}
+    A closed interval between $ a $ and $ b $ is the interval containing the endpoints $ a $ and $ b $. Denoted by:
+    \[ \left[ a, b \right] = \left\{ x : a \leq x \leq b \right\} \]
+\end{definition}
+\begin{definition}{Open Interval}{}
+    An open interval between $ a $ and $ b $ is the interval that doesn't contain the endpoints $ a $ and $ b $. Denoted by:
+    \[ \left( a, b \right) = \left\{ x : a < x < b \right\} \]
+\end{definition}
+\begin{definition}{Well Ordering Principle}{}
+    Every nonempty subset of $ \mathbb{N} $ has a smallest element.
+\end{definition}
+\begin{definition}{Same Size}{}
+    Two sets have the same size if and only if there is a bijection between them.
+\end{definition}
+\begin{definition}{Equivalent Sets}{}
+    We define a relation on sets by $ A \sim B $ if there exists a bijection from $ A $ to $ B $. This is an equivalence relation.
+\end{definition}
+\begin{definition}{Equivalence Relation}{}
+    An equivalence relation is a binary relation that satisfies:
+    \begin{enumerate}
+        \item Reflexivity: $ A \sim A $
+        \begin{itemize}
+            \item Using identity, $ i_A : A \to A $, $ i_A(x) = x $
+        \end{itemize}
+        \item Symmetry: If $ A \sim B $, then $ B \sim A $
+        \begin{itemize}
+            \item Since bijections are invertible
+        \end{itemize}
+        \item Transitivity: If $ A \sim B $, and $ B \sim C $, then $ A \sim C $
+        \begin{itemize}
+            \item By composition of bijections
+        \end{itemize}
+    \end{enumerate}
+\end{definition}
+\begin{definition}{Infinite Set}{}
+    One way to define what it means to be an infinite set is that the set is the same as a proper subset of itself.
+\end{definition}
+\begin{definition}{Countable Sets}{}
+    A countable set is either finite, or is equivalent to $ \mathbb{N} $. If $ |A| = |\mathbb{N}| $, then we say $ A $ is countably infinite, or listable. We can write $ A = \left\{ a_1, a_2, a_3, \dots \right\} $
+\end{definition}
+\begin{theorem}{}{}
+    $ | \mathbb{R} | > | \mathbb{N} | $
+\end{theorem}
+\begin{definition}{Continuum Hypothesis}{}
+    There is no set whose cardinality is strictly between $ | \mathbb{N} | $ and $ | \mathbb{R} | $.
+    \medskip
+    \newline
+    Based on the axioms of set theory, this is unprovable.
+\end{definition}
+\begin{theorem}{}{}
+    If $ A $ is a set and $ \mathcal{P} \left( A \right) $ is the power set of $ A $, then $ | A | < | \mathcal{P} \left( A \right) | $
+\end{theorem}
+\begin{definition}{Sequences}{}
+    A sequence of real numbers is a function $ a: \mathbb{N} \to \mathbb{R} $. We usually write $ a_n $ instead of $ a \left( n \right) $. The notation is:
+    \[ \left\{ a_n \right\}_{n = 1}^\infty \qquad \text{or} \qquad \left\{ a_n \right\} \qquad \text{or} \qquad \left( a_1, a_2, \dots \right) \]
+    Sometimes, we have a formula, ex. $ a_n = \frac{1}{n} $ or $ a_n = n^2 $. Sometimes the function is recursive, ex. $ a_n = a_{n-1} + a_{n-2} $.
+\end{definition}
+\begin{definition}{Bounded Sequences}{}
+    $ \left\{ a_n \right\} $ is bounded if the range $ \left\{ a_n : a \in \mathbb{N} \right\} $ is bounded. This means there exists $ L, U \in \mathbb{R} $ such that
+    \[ L \leq a_n \leq U \qquad \text{for all } n \in \mathbb{N} \]
+\end{definition}
+\begin{proposition}{}{}
+    $ \left\{ a_n \right\} $ is bounded if and only if there exists a $ C \in \mathbb{R} $ with $ | a_n | \leq C $ for all $ n \in \mathbb{N} $.
+\end{proposition}
+\begin{definition}{Convergent Sequence}{}
+    $ \left( a_n \right) $ converges to $ a \in \mathbb{R} $ if $ \forall \; \varepsilon > 0 $ there exists $ N \in \mathbb{N} $ such that $ | a_n - a | < \varepsilon $ when $ n > N $. $ a $ is called the limit of $ a_n $.
+    \begin{align*}
+        | a_n - a | < \varepsilon & \Leftrightarrow - \varepsilon < a_n - a < \varepsilon \\
+        & \Leftrightarrow a - \varepsilon < a_n < a + \varepsilon \\
+        & \Leftrightarrow a \in \left( a - \varepsilon, a + \varepsilon \right)
+    \end{align*}
+    That is, for some $ N \in \mathbb{R} $ and all $ n > N $, we are far enough in the sequence to stay close within the open interval $ \left( a - \varepsilon, a + \varepsilon \right) $,
+\end{definition}
+\begin{definition}{Divergent Sequence}{}
+    If a sequence doesn't converge, then it diverges. There are 3 forms of this:
+    \begin{enumerate}
+        \item $ \left( a_n \right) $ diverges to $ + \infty $
+        \medskip
+        \newline
+        $ \lim_{n \to \infty} a_n = + \infty $ if for all $ M \in \mathbb{R} $ there is some $ N \in \mathbb{R} $ such that $ a_n > M $ for $ n > N $. (Eventually the sequence stays bigger than $ M $).
+        \item $ \left( a_n \right) $ diverges to $ - \infty $
+        \medskip
+        \newline
+        $ \lim_{n \to \infty} a_n = - \infty $ if for all $ M \in \mathbb{R} $ there is some $ N \in \mathbb{R} $ such that $ a_n < M $ for $ n > N $. (Eventually sequence stays smaller than $ M $).
+        \item Limit doesn't exist
+        \medskip
+        \newline
+        We need to negate the definition: $ a_n $ does not converge to $ a \in \mathbb{R} $ if there exists $ \varepsilon > 0 $ such that for all $ N \in \mathbb{N} $.
+        \[ | a_n - a | \geq \varepsilon \qquad \text{for some } n > N \]
+    \end{enumerate}
+\end{definition}
+\begin{proposition}{}{}
+    If a sequence converges, the limit is unique.
+\end{proposition}
+\begin{proposition}{}{}
+    If a sequence is convergent, it is bounded.
+\end{proposition}
+\begin{laws}{Limit Laws}{}
+    Assume $ a_n \to a $, $ b_n \to b $, $ a,b,c \in \mathbb{R} $
+    \begin{enumerate}
+        \item $ \left( a_n + b_n \right) \to a + b $
+        \item $ \left( a_n - b_n \right) \to a - b $
+        \item $ \left( a_n \cdot b_n \right) \to a \cdot b $
+        \item $ \left( \frac{a_n}{b_n} \right) \to \frac{a}{b} \qquad $ provided $ b_n \neq 0 $ for all $ n $, $ b \neq 0 $
+        \item $ \left( c \cdot a_n \right) \to c \cdot a $
+    \end{enumerate}
+\end{laws}
+\begin{theorem}{Squeeze Theorem}{}
+    Assume $ a_n \leq x_n \leq b_n $ for all $ n $ and $ a_n \to L $ and $ b_n \to L $, then $ x_n \to L $.
+\end{theorem}
+\begin{definition}{Monotone Increasing and Monotone Decreasing}{}
+    A sequence $ \left( a_n \right) $ is monotone increasing if
+    \[ a_n \leq a_{n + 1} \qquad \text{for all } n \]
+    Likewise, a sequence $ \left( a_n \right) $ is monotone decreasing if
+    \[ a_n \geq a_{n + 1}  \qquad \text{for all } n \]
+\end{definition}
+\begin{definition}{Monotone}{}
+    If a sequence $ \left( a_n \right) $ is either monotone increasing or monotone decreasing, we say that it is monotone.
+\end{definition}
+\begin{theorem}{Monotone Convergence Theorem (MCT)}{}
+    Suppose $ \left( a_n \right) $ is monotone. Then $ \left( a_n \right) $ converges if and only if it is bounded. Moreover, if $ \left( a_n \right) $ is increasing, then $ \left( a_n \right) $ either diverges to $ + \infty $ or $ \lim_{n \to \infty} a_n = \sup \left( \left\{ a_n : n \in \mathbb{N} \right\} \right) $. If $ \left( a_n \right) $ is decreasing, then either it diverges to $ - \infty $ or $ \lim_{n \to \infty} a_n = \inf \left( \left\{ a_n : n \in \mathbb{N} \right\} \right) $.
+\end{theorem}
+\begin{proposition}{}{}
+    Suppose $ S \subseteq \mathbb{R} $ is bounded above. Then, there exists a sequence $ \left( a_n \right) $ where $ a_n \in S $ for all $ n $ and $ \lim_{n \to \infty} a_n = \sup \left( S \right) $
+    \medskip
+    \newline
+    Likewise if $ S $ is bounded below, there is a sequence $ \left( b_n \right) $ where each $ b_n \in S $ and $ b_n \to \inf \left( S \right) $
+\end{proposition}
+\begin{definition}{Subsequences}{}
+    Let $ \left( a_n \right) $ be a sequence. Let $ n_1 < n_2 < n_3 < \dots $ be an increasing sequence of natural numbers. Then, $ a_{n_1}, a_{n_2}, a_{n_3}, \dots $ is called a subsequence of $ \left( a_n \right) $ and is denoted $ a_{n_k} $.
+\end{definition}
+\begin{proposition}{}{}
+    A sequence converges to $ a $ if and only if every subsequence converges to $ a $. (This is useful for showing a sequence diverges).
+\end{proposition}
+\begin{corollary}{}{}
+    If $ \left( a_n \right) $ has a pair of subsequences that converge to different limits, then $ \left( a_n \right) $ diverges.
+\end{corollary}
+\begin{proposition}{}{}
+    If $ \left( a_n \right) $ is a monotone sequence that has a convergent subsequence, then $ \left( a_n \right) $ converges to the same limit.
+\end{proposition}
+\begin{lemma}{}{}
+    Every sequence has a monotone subsequence.
+\end{lemma}
+\begin{theorem}{Bolzano-Weierstrass}{}
+    Every bounded sequence has a convergent subsequence. \textit{The idea is bounded and monotone gives convergence.}
+\end{theorem}
+\begin{definition}{Cauchy Sequences}{}
+    A sequence $ \left( a_n \right) $ is Cauchy if for every $ \varepsilon > 0 $, there exists $ N \in \mathbb{R} $ such that $ | a_n - a_m | < \varepsilon $ for $ n, m > N $.
+\end{definition}
+\begin{definition}{Series}{}
+    The sum of infinitely many numbers is called a series.
+\end{definition}
+\begin{proposition}{$ k^\text{th} $ Term Test}{}
+    If $ a_k \not \to 0 $, then $ \sum_{k = 1}^\infty a_k $ diverges.
+    \medskip
+    \newline
+    Contrapositive: If $ \sum_{k = 1}^\infty a_k $ converges, then $ a_k \to 0 $.
+\end{proposition}
+\begin{proposition}{Geometric Series Test}{}
+    \[ \sum_{k = 0}^\infty ar^k = \begin{cases}
+        \frac{a}{1 - r} & \text{if } r \in \left( -1, 1 \right) \\
+        \text{diverges} & \text{if } | r | \geq 1
+    \end{cases} \]
+\end{proposition}
+\begin{proposition}{}{}
+    If $ a_k \geq 0 $ for all $ k $, then $ \sum a_k $ either converges, or diverges to $ + \infty $.
+\end{proposition}
+\begin{proposition}{Comparison Test}{}
+    Assume $ 0 \leq a_k \leq b_k $ for all $ k $.
+    \begin{enumerate}
+        \item If $ \sum b_k $ converges, then so does $ \sum a_k $
+        \item If $ \sum a_k $ diverges, then so does $ \sum b_k $
+    \end{enumerate}
+\end{proposition}
+\begin{proposition}{}{}
+    The Harmonic Series diverges.
+\end{proposition}
+\begin{proposition}{$ p $-Series}{}
+    $ \sum_{k = 1}^\infty \frac{1}{k^p} $ converges if and only if $ p > 1 $.
+\end{proposition}
+\begin{proposition}{Alternating Series Test}{}
+    Assume $ \left( a_k \right) $ is monotonically decreasing with $ a_k \to 0 $, then
+    \[ \sum_{k = 1}^\infty \left( -1 \right)^{k + 1} a_k \]
+    converges.
+    \medskip
+    \newline
+    Note: $ a_k $ is decreasing with a limit of 0, which implies each $ a_k \geq 0 $.
+\end{proposition}
+\begin{proposition}{}{}
+    If $ \sum_{k = 1}^\infty | a_k | $ converges, then $ \sum_{k = 1}^\infty a_k $ also converges.
+\end{proposition}
+\begin{definition}{Absolute Convergence}{}
+    If $ \sum_{k = 1}^\infty | a_k | $ converges, we say $ \sum_{k = 1}^\infty a_k $ converges absolutely.
+    \medskip
+    \newline
+    If $ \sum_{k = 1}^\infty a_k $ converges, but $ \sum_{k = 1}^\infty | a_k | $ does not, we say $ \sum_{k = 1}^\infty a_k $ converges conditionally.
+\end{definition}
+\begin{definition}{Continuity}{}
+    A function $ f: A \to \mathbb{R} $ is continuous at a point $ c \in A $ if for every $ \varepsilon > 0 $, there exists $ \delta > 0 $ such that for all $ x \in A $ with $ | x - c | < \delta $ we have $ | f \left( x \right) - f \left( c \right) | < \varepsilon $.
+    \medskip
+    \newline
+    This means, for $ x \in A $ with $ x \in \left( c - \delta, c + \delta \right) $, we have $ f \left( x \right) \in \left( f \left( c \right) - \varepsilon, f \left( c  \right) + \varepsilon \right) $. Note that we include $ x = c $
+    \medskip
+    \newline
+    If $ f \left( x \right) $ is continuous at every point in its domain, we say it is continuous.
+\end{definition}
+\begin{definition}{Negation of Continuity at $ x = c $}{}
+    A function $ f \left( x \right) $ is not continuous at $ x = c $ if there exists $ \varepsilon > 0 $ such that for all $ \delta > 0 $, there exists $ x $ with $ | x - c | < \delta $, but $ | f \left( x \right) - f \left( c \right) | \geq \varepsilon $
+\end{definition}
+\begin{definition}{Dirichlet Function}{}
+    \[ f : \mathbb{R} \to \mathbb{R}, \quad f \left( x \right) = \begin{cases}
+        1 & \text{if } x \in \mathbb{Q} \\
+        0 & \text{if } x \notin \mathbb{Q}
+    \end{cases} \]
+\end{definition}
+\begin{definition}{Modified Dirichlet Function}{}
+    \[ f \left( x \right) = \begin{cases}
+        x & \text{if } x \in \mathbb{Q} \\
+        0 & \text{if } x \notin \mathbb{Q}
+    \end{cases} \]
+\end{definition}
+\begin{definition}{Limit Point}{}
+    A point $ x $ is a limit point of a set $ A $ if there is a sequence of points $ a_1, a_2, a_3, \dots $ from $ A \setminus \left\{ x \right\} $ such that $ a_n \to x $
+    \medskip
+    \newline
+    A point $ x $ is a limit of point $ A $ iff every $ \varepsilon $-neighbourhood of $ x $ intersects $ A $ at some point other than $ x $
+\end{definition}
+\begin{definition}{Epsilon Neighbourhood}{}
+    The $ \varepsilon $-neighbourhood of $ x $ is $ \left( x - \varepsilon, x + \varepsilon \right) $ for some $ \varepsilon > 0 $.
+\end{definition}
+\begin{definition}{Functional Limit}{}
+    Let $ f : A \to \mathbb{R} $ and $ c $ is a limit point of $ A $, then $ \lim_{x \to c} f \left( x \right) = L $ if for all $ \varepsilon > 0 $, $ \exists \; \delta > 0 $ such that for all $ x \in A $ with $ 0 < | x - c | < \delta $, we have $ | f \left( x \right) - L | < \varepsilon $.
+\end{definition}
+\begin{definition}{Negation of Functional Limit}{}
+    There exists $ \varepsilon > 0 $, such that for all $ \delta > 0 $ there is some $ x \in A $ with $ 0 < | x - c | < \delta $ and $ | f \left( x \right) - L | \geq \varepsilon $.
+\end{definition}
+\begin{proposition}{}{}
+    $ \lim_{x \to c} f \left( x \right) $ can converge to at most 1 value. That is, if the limit exists, then it is unique.
+\end{proposition}
+\begin{theorem}{}{}
+    Let $ A \subseteq \mathbb{R} $, $ c $ is a limit point of $ A $, then $ \lim_{x \to c} f \left( x \right) = L $ if and only if for every sequence $ \left( a_n \right) $ for which each $ a_n \in A $ with $ a_n \neq c $ and $ a_n \to c $, we have $ f \left( a_n \right) \to L $.
+\end{theorem}
+\begin{laws}{Functional Limit Laws}{}
+    Let $ f, g $ be functions from $ A \subseteq \mathbb{R} $ to $ \mathbb{R} $, $ c $ is a limit point of $ A $, and
+    \[ \lim_{x \to c} f \left( x \right) = L \quad \text{and} \quad \lim_{x \to c} g \left( x \right) = M \]
+    \begin{enumerate}
+        \item $ \lim_{x \to c} k \cdot f \left( x \right) = k \cdot L $ for any $ k \in \mathbb{R} $
+        \item $ \lim_{x \to c} \left[ f \left( x \right) + g \left( x \right) \right] = L + M $
+        \item $ \lim_{x \to c} \left[ f \left( x \right) \cdot g \left( x \right) \right] = L \cdot M $
+        \item $ \lim_{x \to c} \left[ \frac{f \left( x \right)}{g \left( x \right)} \right] $ provided $ M \neq 0 $ and $ g \left( x \right) \neq 0 $ for $ x \in A $
+        \item \textit{To prove this, use the sequence limit laws}
+    \end{enumerate}
+\end{laws}
+\begin{theorem}{Squeeze Theorem for Functions}{}
+    For $ f, g, h : A \to \mathbb{R} $, $ c $ is a limit point of $ A $ and $ f \left( x \right) \leq g \left( x \right) \leq h \left( x \right) $ for all $ x \in A $, and $ \lim_{x \to c} f \left( x \right) = L = \lim_{x \to c} h \left( x \right) $, then $ \lim_{x \to c} g \left( x \right) = L $
+\end{theorem}
+\begin{proposition}{}{}
+    Let $ A, B \subseteq \mathbb{R} $, $ g : A \to B $ is continuous at $ c $, $ f : B \to \mathbb{R} $ is continuous at $ g \left( c \right) $, then $ \left( f \circ g \right) \left( x \right) : A \to \mathbb{R} $ is continuous at $ c $
+\end{proposition}
+\begin{definition}{Delta Neighbourhood}{}
+    Given $ \delta > 0 $, the $ \delta $-neighbourhood of a point $ x \in \mathbb{R} $ is denoted by $ V_\delta \left( x \right) = \left( x - \delta, x + \delta \right) = \left\{ y \in \mathbb{R} : | x - y | < \delta \right\} $
+\end{definition}
+\begin{definition}{Open Set}{}
+    A set $ U \subseteq \mathbb{R} $ is open if for all $ x \in U $, $ \exists \; \delta > 0 $ such that $ \left( x - \delta, x + \delta \right) \subseteq U $. That is, if $ \forall \; x \in U $, $ \exists \; V_\delta \left( x \right) \subseteq U $
+    \medskip
+    \newline
+    This is equivalent to saying $ U \subseteq \mathbb{R} $ is open if $ \forall \; x \in U $, $ \exists \; \delta > 0 $ such that if $ | x - y | < \delta $, then $ y \in U $
+\end{definition}
+\begin{proposition}{(5.3)}{}
+    \begin{enumerate}[label = {(\roman*)}]
+        \item If $ \left\{ U_\alpha \right\} $ is any collection of open sets, then $ \bigcup\limits_\alpha U_\alpha $ is also an open set
+        \item If $ \left\{ U_1, U_2, \dots, U_n \right\} $ is a finite collection of open sets, then $ \bigcap\limits_{k = 1}^n U_k $ is also an open set
+    \end{enumerate}
+    We can do arbitrary unions and finite intersections of open sets, and end up with an open set
+\end{proposition}
+\begin{theorem}{(5.5)}{}
+    Every open set is a countable union of disjoint open intervals
+\end{theorem}
+\begin{definition}{(5.6)}{}
+    A set $ A \subseteq \mathbb{R} $ is closed if $ A^c $ is open.
+    \medskip
+    \newline
+    This is equivalent to saying $ A $ is closed if there exists an open set $ B $ such that $ B^c = A $
+\end{definition}
+\begin{theorem}{(5.10)}{}
+    A set $ A $ is closed iff it contains all of its limit points
+\end{theorem}
+\begin{fact}{(5.11)}{}
+    \[ \left( \bigcup_\alpha U_\alpha \right)^c = \bigcap_\alpha U_\alpha^c \quad \text{and} \quad \left( \bigcap_\alpha U_\alpha \right)^c = \bigcup_\alpha U_\alpha^c \]
+\end{fact}
+\begin{definition}{Topological Space}{}
+    A topological space is a pair $ \left( X, \tau \right) $ of a set $ X $ and a collection $ \tau $ of subsets of $ X $ (these are the opens sets) satisfying:
+    \begin{enumerate}
+        \item Arbitrary union of open sets is open
+        \item Finite intersection of open sets is open
+        \item $ X $ and $ \emptyset $ are open
+    \end{enumerate}
+\end{definition}
+\begin{example}{(Exercise 5.7)}{}
+    $ x $ is a limit point of $ A $ iff every $ \varepsilon $-neighbourhood of $ x $ intersects $ A $ at some point other than $ x $
+\end{example}
+\begin{proposition}{}{}
+    \begin{enumerate}
+        \item If $ \left\{ U_1, U_2, \dots, U_n \right\} $ are closed sets, then $ \bigcup_{k = 1}^\infty U_k $ is also closed
+        \item If $ \left\{ U_\alpha \right\}_{\alpha \in I} $ is a collection of closed sets, then $ \bigcap_{\alpha \in I} U_\alpha $ is closed
+    \end{enumerate}
+    That is, we can do finite unions and arbitrary intersections of closed sets to get a closed set. This follows from the fact that we can do arbitrary unions and finite intersections of open sets to get an open set.
+\end{proposition}
+\begin{definition}{Covers}{}
+    Let $ A $ be a set. The set $ \left\{ U_\alpha \right\}_{\alpha \in S} $ is a cover of $ A $ if $ A \subseteq \bigcup_{\alpha \in S} U_\alpha $
+    \medskip
+    \newline
+    If each $ U_\alpha $ is open, we say it is an open cover
+    \medskip
+    \newline
+    If $ \left\{ U_\alpha \right\}_{\alpha \in S} $ has a finite subset $ \left\{ U_\alpha \right\}_{\alpha \in F} $ (assuming $ F \subseteq S $) which is still a cover of $ A $, then $ \left\{ U_\alpha \right\}_{\alpha \in F} $ is a finite subcover
+\end{definition}
+\begin{definition}{Compact Set}{}
+    A set $ A $ is compact if every open cover of $ A $ contains a finite subcover.
+    \medskip
+    \newline
+    For example, $ \left( 0, 4 \right) $ is not compact, but $ \left[ 0, 4 \right] $ is.
+\end{definition}
+\begin{theorem}{Heine-Borel}{}
+    A set $ S \subseteq \mathbb{R} $ is compact iff it is closed and bounded.
+\end{theorem}
+\begin{theorem}{Equivalent Forms of Continuity}{}
+    The following are equivalent:
+    \begin{enumerate}[label = {(\roman*)}]
+        \item $ f $ is continuous at $ c $
+        \item $ \forall \; \varepsilon > 0 $, $ \exists \; \delta > 0 $ such that $ \forall \; x \in A $ with $ \left| x - c \right| < \delta $ we have $ \left| f \left( x \right) - f \left( c \right) \right| < \varepsilon $
+        \item For any $ \varepsilon $-neighbourhood of $ f \left( c \right) $ denoted by $ V_\varepsilon \left( f \left( c \right) \right) $, there exists some $ \delta $-neighbourhood of $ c $ denoted by $ V_\delta \left( c \right) $ with the property that $ \forall \; x \in A $ with $ x \in V_\delta \left( c \right) $, we have $ f \left( x \right) \in V_\varepsilon \left( f \left( c \right) \right) $
+        \item For all sequences $ \left( a_n \right) $ from $ A $ which converge to $ c $ ($ \lim_{n \to \infty} a_n = c $) we have $ \left( f \left( a_n \right) \right) $ converging to $ f \left( c \right) $.
+        That is, $ \lim_{n \to \infty} f \left( a_n \right) $ = $ f \left( \lim_{n \to \infty} a_n \right) $
+        \item $ \lim_{x \to c} f \left( x \right) = f \left( c \right) $
+    \end{enumerate}
+\end{theorem}
+\begin{theorem}{Topological Continuity}{}
+    Let $ f : X \to \mathbb{R} $, then $ f $ is continuous if and only if for every open set $ B \subseteq \mathbb{R} $, $ f^{-1} \left( B \right) = A \cap X $ for some open set $ A $.
+\end{theorem}
+\begin{theorem}{}{}
+    Suppose $ f : X \to \mathbb{R} $ is continuous. If $ A \subseteq X $ is compact, then $ f \left( A \right) $ is compact.
+\end{theorem}
+\begin{corollary}{}{}
+    The image of a compact set under a continuous function is bounded (and also closed) by Heine Borel.
+\end{corollary}
+\begin{theorem}{Extreme Value Theorem (EVT)}{}
+    A continuous function on a compact set attains its sup and inf. That is, there is some $ a_0, b_0 $ in the set such that $ f \left( a_0  \right) = $ sup of the image, $ f \left( b_0 \right) = $ inf of the image.
+\end{theorem}
+\begin{definition}{Interior}{}
+    The interior of a set $ A $, denoted by $ \mathrm{Int} \left( A \right) $, is the set of points $ x $ such that there is an open neighbourhood of $ x $ that is a subset of $ A $.
+\end{definition}
+\begin{definition}{Exterior}{}
+    The exterior of a set $ A $, denoted by $ \mathrm{Ext} \left( A \right) $, is the set of points $ x $ such that there is an open neighbourhood of $ x $ that is a subset of $ A^c $. That is, $ \mathrm{Ext} \left( A \right) = \mathrm{Int} \left( A^c \right) $.
+\end{definition}
+\begin{definition}{Boundary}{}
+    The boundary of a set $ A $, denoted by $ \partial A $, is the set of points $ x $ such that every neighbourhood of $ x $ contains points from $ A $ and $ A^c $.
+\end{definition}
+\begin{note}{}{}
+    We could show that for any set $ A $,
+    \[ \mathbb{R} = \mathrm{Int} \left( A \right) \cup \partial A \cup \mathrm{Ext} \left( A \right) \]
+    where each of these sets are disjoint.
+\end{note}
+\begin{lemma}{}{}
+    If $ f $ is continuous, and $ f \left( c \right) > 0 $, then there exists $ \delta > 0 $ such that $ f \left( x \right) > 0 $ for all $ x \in \left( c - \delta, c + \delta \right) $.
+    \medskip
+    \newline
+    Likewise, if $ f \left( c \right) < 0 $, we can find $ \delta > 0 $ such that for all $ x \in \left( c - \delta, c + \delta \right) $ we have $ f \left( x \right) < 0 $.
+\end{lemma}
+\begin{proposition}{}{}
+    If $ f $ is continuous on $ \left[ a, b \right] $ and $ f \left( a \right) $ and $ f \left( b \right) $ have different signs (one positive, one negative), then there is some $ c \in \left( a, b \right) $ for which $ f \left( c \right) = 0 $.
+\end{proposition}
+\begin{theorem}{Intermediate Value Theorem (IVT)}{}
+    If $ f $ is continuous on $ \left[ a, b \right] $ and $ \alpha $ is any number between $ f \left( a \right) $ and $ f \left( b \right) $. Then there exists $ c \in \left( a, b \right) $ for which $ f \left( c \right) = \alpha $
+\end{theorem}
+\begin{definition}{Uniform Continuity}{}
+    $ f : A \to \mathbb{R} $ is uniformly continuous if for all $ \varepsilon > 0 $, there exists $ \delta > 0 $ such that for all $ x, y \in A $, $ | x - y | < \delta $ implies $ | f \left( x \right) - f \left( y \right) | < \varepsilon $.
+\end{definition}
+\begin{proposition}{}{}
+    If $ f: A \to \mathbb{R} $ is continuous and $ A $ is compact, then $ f $ is uniformly continuous on $ A $
+\end{proposition}
+\begin{definition}{Differentiability}{}
+    Let $ I $ be an interval, $ f : I \to \mathbb{R} $, and $ c \in I $. We say $ f $ is differentiable at $ c \in I $ if the following limit exists
+    \[ \lim_{x \to c} \frac{f \left( x \right) - f \left( c \right)}{x - c} \]
+    If $ C $ is a collection of points where $ f $ is differentiable, then the derivative of $ f $ is a function $ f' : C \to \mathbb{R} $, where
+    \[ f' \left( c \right) = \lim_{x \to c} \frac{f \left( x \right) - f \left( c \right)}{x - c} \]
+\end{definition}
+\begin{theorem}
+    Suppose $ I $ is an interval and $ f : I \to \mathbb{R} $ is differentiable at $ c \in I $. Then, $ f $ is continuous at $ c $.
+\end{theorem}
+\begin{laws}{Differentiability Laws}{}
+    Let $ I $ be an interval, $ k \in \mathbb{R} $, and $ f, g : I \to \mathbb{R} $ where both $ f $ and $ g $ are differentiable at $ c \in \mathbb{R} $.
+    \begin{enumerate}
+        \item $ \left( f + g \right)' \left( c \right) = f' \left( c \right) + g' \left( c \right) $
+        \item $ \left( f - g \right)' \left( c \right) = f' \left( c \right) - g' \left( c \right) $
+        \item $ \left( k \cdot f \right)' \left( c \right) = k \cdot f' \left( c \right) $
+    \end{enumerate}
+\end{laws}
+\begin{theorem}{Product Rule}{}
+    $ \left( fg \right)' \left( c \right) = f' \left( c \right) \cdot g \left( c \right) + f \left( c \right) \cdot g' \left( c \right) $
+\end{theorem}
+\begin{theorem}{Chain Rule}{}
+    Let $ I_1, I_2 $ be intervals, $ g: I_1 \to I_2 $, $ f: I_2 \to \mathbb{R} $, $ \left( f \circ g \right): I_1 \to \mathbb{R} $, $ g $ is differentiable at $ c \in I_1 $, f is differentiable at $ g \left( c \right) \in I_2 $, then $ f \circ g $ is differentiable at $ c $ and $ \left( f \circ g \right)' = f' \left( g \left( c \right) \right) \cdot g' \left( c \right) $
+\end{theorem}
+\begin{definition}{Local Minima and Maxima}{}
+    $ f : A \to \mathbb{R} $ has a local max at $ c \in A $i f there exists $ \delta > 0 $ such that for all $ x \in A $ with $ | x - c | < \delta $, we have $ f \left( x \right) \leq f \left( c \right) $
+    \medskip
+    \newline
+    Likewise, $ f $ has a local min at $ c $ if there exists $ \delta > 0 $ such that for all $ x \in A $ with $ | x - c | < \delta $ we have $ f \left( x \right) \geq f \left( c \right) $
+\end{definition}
+\begin{note}{}{}
+    Recall: A sequence $ \left( S_n \right) $ where each term $ S_n \geq 0 $ and $ S_n \to L $, then $ L \geq 0 $
+\end{note}
+\begin{proposition}{}{}
+    Let $ I $ be an open interval and $ f $ is differentiable at $ c \in I $. If $ f $ has a local max or min at $ c $, then $ f' \left( c \right) = 0 $
+\end{proposition}
+\begin{note}{Intermediate Value Property (IVP)}{}
+    A function has the intermediate value property on $ \left[ a, b \right] $ if when $ \alpha $ is any value between $ f \left( a \right) $ and $ f \left( b \right) $ there is some $ c \in \left( a, b \right) $ with $ f \left( c \right) = \alpha $
+\end{note}
+\begin{theorem}{Darboux's Theorem}{}
+    Let $ f $ be differentiable on $ \left( a, b \right) $. If $ \alpha $ is between $ f' \left( a \right) $ and $ f' \left( b \right) $ then there exists $ c \in \left( a, b \right) $ where $ f' \left( c \right) = \alpha $
+\end{theorem}
+\begin{theorem}{Rolle's Theorem}{}
+    $ f : \left[ a, b \right] \to \mathbb{R} $ is continuous on $ \left[ a, b \right] $ and differentiable on $ \left( a, b \right) $. If $ f \left( a \right) = f \left( b \right) $ then there exists $ c \in \left( a, b \right) $ with $ f' \left( c \right) = 0 $
+\end{theorem}
+\begin{theorem}{Mean Value Theorem (MVT)}{}
+    $ f: \left[ a, b \right] \to \mathbb{R} $ is continuous on $ \left[ a, b \right] $ and differentiable on $ \left( a, b \right) $. There exists $ c \in \left( a, b \right) $ with $ f' \left( c \right) = \frac{f \left( b \right) - f \left( a \right)}{b - a} $. I.e., $ f' \left( c \right) \left( b - a \right) = f \left( b \right) - f \left( a \right) $
+\end{theorem}
+\begin{corollary}{}{}
+    Let $ I $ be an interval and $ f : I \to \mathbb{R} $ is differentiable. If $ f' \left( x \right) = 0 $ for all $ x \in I $ then $ f $ is constant.
+\end{corollary}
+\begin{corollary}{}{}
+    Let $ I $ be an interval, $ f, g : I \to \mathbb{R} $, both differentiable on $ I $. If $ f' \left( x \right) = g' \left( x \right) $ for all $ x \in I $ then $ f \left( x \right) = g \left( x \right) + C $ for some $ c \in \mathbb{R} $.
+\end{corollary}
+\begin{corollary}{}{}
+    Let $ I $ be an interval, $ f: I \to \mathbb{R} $, $ f $ is differentiable on $ I $
+    \begin{enumerate}[label=(\roman*)]
+        \item $ f $ is monotonic increasing iff $ f' \left( x \right) \geq 0 $ for all $ x \in I $
+        \item $ f $ is monotonic decreasing iff $ f' \left( x \right) \leq 0 $ for all $ x \in I $
+    \end{enumerate}
+\end{corollary}
+\begin{theorem}{Cauchy MVT}{}
+    If $ f, g $ are continuous on $ \left[ a, b \right] $ and differentiable on $ \left( a, b \right) $ then there exists $ c \in \left( a, b \right) $ such that
+    \[ \left[ f \left( b \right) - f \left( a \right) \right] \cdot g' \left( c \right) = \left[ g \left( b \right) - g \left( a \right) \right] \cdot f' \left( c \right) \]
+    Note: The MVT is a special case of the Cauchy MVT with $ g \left( x \right) = x $
+\end{theorem}
+\begin{theorem}{L'Hôpital's Rule}{}
+    Suppose $ I $ is an interval containing a point $ a $ and $ f: I \to \mathbb{R} $ and $ g: I \to \mathbb{R} $ are differentiable (except possibly at $ a $) and suppose $ g' \left( x \right) \neq 0 $ on $ I $. Then, if $ \lim_{x \to a} f \left( x \right) = 0 = \lim_{x \to a} g \left( x \right) $ or if $ \lim_{x \to a} f \left( x \right) = \pm \infty $ and $ \lim_{x \to a} g \left( x \right) = \pm \infty $, then
+    \[ \lim_{x \to a} \frac{f \left( x \right)}{g \left( x \right)} = \lim_{x \to a} \frac{f' \left( x \right)}{g' \left( x \right)} \]
+    provided the limit exists.
+\end{theorem}
+\begin{definition}{Lipschitz Continuity}{}
+    $ f $ is called Lipschitz continuous if there exists $ K \in \mathbb{R} $ where $ | f \left( x \right) - f \left( y \right) | \leq K \cdot | x - y | $ for all $ x, y $ where $ f $ is defined.
+\end{definition}
+\begin{definition}{Contraction Mapping}{}
+    A contraction mapping is a Lipschitz function where $ K \in \left[ 0, 1 \right) $ so $ \left| f \left( x \right) - f \left( y \right) \right| < \left| x - y \right| $.
+\end{definition}
+\begin{definition}{Iterated Function System (IFS)}{}
+    An iterated function system (IFS) is a set of contraction mappings.
+\end{definition}
+\begin{definition}{Partition}{}
+    A partition of $ \left[ a, b \right] $ is a finite set $ \left\{ x_0, x_1, \dots, x_n \right\} $ such that $ x_0 = a $, $ x_n = b $, $ x_0 < x_1 < \dots < x_n $.
+    \medskip
+    \newline
+    Notion: Given a partition, the $ i^\text{th} $ subinterval is $ \left[ x_{i - 1}, x_i \right] $
+\end{definition}
+\begin{definition}{}{}
+    \[ m_i := \inf \left\{ f \left( x \right) : x \in \left[ x_{i - 1}, x_i \right] \right\} \]
+    \[ M_i := \sup \left\{ f \left( x \right) : x \in \left[ x_{i - 1}, x_i \right] \right\} \]
+\end{definition}
+\begin{definition}{Upper \& Lower Sums}{}
+    Consider $ f : \left[ a, b \right] \to \mathbb{R} $, $ P = \left\{ x_0, x_1, \dots, x_n \right\} $ is a partition of $ \left[ a, b \right] $
+    \[ U \left( f, P \right) = \sum_{i = 1}^n M_i \left( x_i - x_{i -1} \right) \qquad \text{is the upper sum} \]
+    \[ L \left( f, P \right) = \sum_{i = 1}^n m_i \left( x_i - x_{i -1} \right) \qquad \text{is the lower sum} \]
+\end{definition}
+\begin{definition}{Refinement}{}
+    Consider a partition $ P = \left\{ x_0, \dots, x_n \right\} $ of $ \left[ a, b \right] $. A partition $ Q $ of $ \left[ a, b \right] $ is called a refinement of $ P $ if $ P \subseteq Q $.
+\end{definition}
+\begin{proposition}{}{}
+    Let $ f : \left[ a, b \right] \to \mathbb{R} $ and $ P = \left\{ x_0, x_1, \dots, x_n \right\} $ be a partition of $ \left[ a, b \right] $. If $ Q $ is a refinement of $ P $ then,
+    \[ U \left( f, P \right) \geq U \left( f, Q \right) \]
+    \[ L \left( f, P \right) \leq L \left( f, Q \right) \]
+\end{proposition}
+\begin{proposition}{}{}
+    Let $ f : \left[ a, b \right] \to \mathbb{R} $
+    \begin{enumerate}[label = (\alph*)]
+        \item if $ P $ is a partition of $ \left[ a, b \right] $ then $ L \left( f, P \right) \leq U \left( f, P \right) $
+        \item if $ P_1, P_2 $ are any partitions then $ L \left( f, P_1 \right) \leq U \left( f, P_2 \right) $
+    \end{enumerate}
+\end{proposition}
+\begin{definition}{Upper \& Lower Integrals}{}
+    Let $ f : \left[ a, b \right] \to \mathbb{R} $ is a bounded function, let $ \mathcal{P} $ be the set of all partitions of $ \left[ a, b \right] $. The upper integral of $ f $ is defined to be
+    \[ U \left( f \right) = \inf \left\{ U \left( f, P \right) : P \in \mathcal{P} \right\} \]
+    and the lower integral is:
+    \[ L \left( f \right) = \sup \left\{ L \left( f, P \right) : P \in \mathcal{P} \right\} \]
+\end{definition}
+\begin{lemma}{}{}
+    Let $ f : \left[ a, b \right] \to \mathbb{R} $ be bounded with $ m \leq f \left( x \right) \leq M $ for all $ x \in \left[ a, b \right] $, then
+    \[ m \left( b - a \right) \leq L \left( f \right) \leq U \left( f \right) \leq M \left( b - a \right) \]
+\end{lemma}
+\begin{definition}{Darboux Integrable}{}
+    A bounded function $ f : \left[ a, b \right] \to \mathbb{R} $ is (Darboux) Integrable if $ L \left( f \right) = U \left( f \right) $. When this happens, we denote the common value by
+    \[ \int_a^b f \qquad \text{or} \qquad \int_a^b f \left( x \right) \, dx \]
+\end{definition}
+\begin{proposition}{}{}
+    Assume a bounded function $ f : \left[ a, b \right] \to \mathbb{R} $ is integrable. If $ f \geq 0 $ for all $ x \in \left[ a, b \right] $ then
+    \[ \int_a^b f \left( x \right) \, dx \geq 0 \]
+\end{proposition}
+\begin{theorem}{}{}
+    Assume $ f : \left[ a, b \right] \to \mathbb{R} $ is bounded. Then $ f $ is integrable if and only if for all $ \varepsilon > 0 $, there exists a partition $ P_\varepsilon $ of $ \left[ a, b \right] $ such that
+    \[ U \left( f, P_\varepsilon \right) - L \left( f, P_\varepsilon \right) < \varepsilon \]
+\end{theorem}
+\begin{corollary}{}{}
+    If $ f : \left[ a, b \right] \to \mathbb{R} $ is integrable then there exists a sequence of partitions $ P_n $ of $ \left[ a, b \right] $ such that
+    \[ \lim_{n \to \infty} \left[ U \left( f, P_n \right) - L \left( f, P_n \right) \right] = 0 \]
+\end{corollary}
+\begin{theorem}{(8.16)}{}
+    If $ f : \left[ a, b \right] \to \mathbb{R} $ is continuous, then it is integrable.
+\end{theorem}
+\begin{porism}{(8.18)}{}
+    Let $ c \in \left[ a, b \right] $ and suppose $ f : \left[ a, b \right] \to \mathbb{R} $ with
+    \[ f \left( x \right) = \begin{cases}
+        1 & \text{if } x \neq c \\
+        0 & \text{if } x = c
+    \end{cases} \]
+    then $ f $ is integrable.
+\end{porism}
+\begin{definition}{Length of Intervals}{}
+    The length of an interval $ \left[ a, b \right] $ is $ b - a $, denoted by $ \mathcal{L} \left( \left[ a, b \right] \right) $.
+    \medskip
+    \newline
+    The length of the following intervals are also $ b - a $: $ \left( a, b \right) $, $ \left( a, b \right] $, $ \left[ a, b \right) $.
+    \medskip
+    \newline
+    Intervals with infinity have length $ \infty $.
+\end{definition}
+\begin{theorem}{}{}
+    Assume $ f : \left[ a, b \right] \to \mathbb{R} $ is bounded, and let $ D $ be the set of points at which $ f $ is discontinuous. Then $ f $ is integrable if and only if $ D $ has measure 0.
+\end{theorem}
+\begin{proposition}{}{}
+    Assume $ f : \left[ a, b \right] \to \mathbb{R} $ is integrable. If $ a < c < b $, then
+    \[ \int_a^b f \left( x \right) \; dx = \int_a^c f \left( x \right) \; dx + \int_c^b f \left( x \right) \; dx \]
+\end{proposition}
+\begin{proposition}{}{}
+    Assume $ f : \left[ a, b \right] \to \mathbb{R} $ and $ g : \left[ a, b \right] \to \mathbb{R} $ are integrable, then
+    \begin{enumerate}
+        \item For all $ k \in \mathbb{R} $, $ kf $ is also integrable on $ \left[ a, b \right] $ and $ \int_a^b k f \left( x \right) \; dx = k \int_a^b f \left( x \right) \; dx $
+        \item The function $ f + g $ is also integrable on $ \left[ a, b \right] $ and $ \int_a^b \left( f + g \right) \left( x \right) \; dx = \int_a^b f \left( x \right) \; dx + \int_a^b g \left( x \right) \; dx $
+    \end{enumerate}
+\end{proposition}
+\begin{corollary}{}{}
+    Suppose $ f \left( x \right) \leq g \left( x \right) $ for all $ x \in \left[ a, b \right] $ where $ f, g $ are both integrable. Then,
+    \[ \int_a^b f \left( x \right) \; dx \leq \int_a^b g \left( x \right) \; dx \]
+\end{corollary}
+\begin{corollary}{}{}
+    Suppose $ f : \left[ a, b \right] \to \mathbb{R} $ is integrable then $ \left| f \right| $ is also integrable and
+    \[ \left| \int_a^b f \left( x \right) \; dx \right| \leq \int_a^b \left| f \left( x \right) \right| \; dx \]
+\end{corollary}
+\begin{definition}{}{}
+    \[ \int_a^a f \left( x \right) \; dx = 0 \]
+    \[ \int_a^b f \left( x \right) \; dx = - \int_b^a f \left( x \right) \; dx \]
+\end{definition}
+\begin{proposition}{(8.31)}{}
+    If $ f $ is continuous on $ \left[ a, b \right] $, then there is some $ c \in \left[ a, b \right] $ such that
+    \[ f \left( c \right) = \frac{1}{b - a} \int_a^b f \left( x \right) \; dx \]
+\end{proposition}
+\begin{theorem}{(Fundamental Theorem of Calculus - FTC)}{}
+    \begin{enumerate}
+        \item If $ f : \left[ a, b \right] \to \mathbb{R} $ is integrable and $ F : \left[ a, b \right] \to \mathbb{R} $ satisfies $ F' \left( x \right) = f \left( x \right) $ for all $ x \in \left[ a, b \right] $, then 
+        \[ \int_a^b f \left( x \right) \; dx = F \left( b \right) - F \left( a \right) \]
+        \item Let $ g : \left[ a, b \right] \to \mathbb{R} $ be integrable and define $ G : \left[ a, b \right] \to \mathbb{R} $ by $ G \left( x \right) = \int_a^x g \left( t \right) \; dt $, then $ G $ is continuous. Moreover, if $ g $ is continuous then $ G $ is differentiable and $ G' \left( x \right) = g \left( x \right) $.
+    \end{enumerate}
+\end{theorem}
+
+\end{document}

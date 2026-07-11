@@ -1,0 +1,464 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{amssymb}
+
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{Number Theory}}
+\rhead{\textbf{Theorems, Lemmas, Corollaries, Propositions, etc.}}
+\lfoot{\textbf{St. Francis Xavier University}}
+\rfoot{\textbf{Carter Clifton}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\tcbset{
+    grayscalebox/.style={
+        enhanced,
+        sharp corners,
+        colback=gray!5,
+        colframe=black!10,
+        boxrule=0.4pt,
+        left=1em,
+        right=1em,
+        top=0.5em,
+        bottom=0.5em,
+        fonttitle=\bfseries\normalsize,
+        coltitle=black,
+        before skip=10pt,
+        after skip=10pt
+    }
+}
+
+\newtcbtheorem[no counter]{theorem}{Theorem}{grayscalebox}{th}
+\newtcbtheorem[no counter]{lemma}{Lemma}{grayscalebox}{lem}
+\newtcbtheorem[no counter]{corollary}{Corollary}{grayscalebox}{cor}
+\newtcbtheorem[no counter]{proposition}{Proposition}{grayscalebox}{prop}
+\newtcbtheorem[no counter]{definition}{Definition}{grayscalebox}{def}
+\newtcbtheorem[no counter]{example}{Example}{grayscalebox}{ex}
+\newtcbtheorem[no counter]{remark}{Remark}{grayscalebox}{rem}
+\newtcbtheorem[no counter]{properties}{Properties}{grayscalebox}{prop}
+
+\newcommand{\horrule}{\noindent\rule{\linewidth}{0.4pt}\newline}
+
+\begin{document}
+
+\begin{definition}{Divides}{}
+    We say that $ a $ divides $ b $, denoted $ a \mid b $, iff $ \exists \, d : a \cdot d = b $. If $ a $ does not divide $ b $, then we write $ a \nmid b $.
+\end{definition}
+\begin{properties}{Divides}{}
+    \begin{itemize}
+    \item If $ a \mid b $ and $ b \mid c $, then $ a \mid c $.
+    \item If $ a \mid b $ and $ a \mid c $, then $ a \mid \left( b + c \right) $.
+    \item If $ a \mid b $ and $ a \mid c $, then $ a \mid \left( m \cdot b + n \cdot c \right) $ for any integers $ m $ and $ n $.
+    \item If $ d \mid a $, then $ d \mid \left( c \cdot a \right) $ for any integer $ c $.
+    \end{itemize}
+\end{properties}
+\begin{definition}{Greatest Common Divisor}{}
+    We say that $ d $ is the greatest common divisor of $ a $ and $ b $, denoted $ d = \left( a, b \right) = \gcd \left( a, b \right) $ iff $ d \mid a $ and $ d \mid b $, and if $ c \mid a $ and $ c \mid b $, then $ c \leq d $.
+\end{definition}
+\begin{remark}{}{}
+    If $ \left( a, b \right) = 1 $, then we will say that $ a $ and $ b $ are relatively prime.
+\end{remark}
+\begin{theorem}{(1.1)}{}
+    If $ \left( a, b \right) = d $, then $ \left( \frac{a}{d}, \frac{b}{d} \right) = 1 $.
+\end{theorem}
+\begin{theorem}{Division Algorithm (1.2)}{}
+    Given positive integers $ a $ and $ b $, $ b \neq 0 $, there exists unique integers $ q $ and $ r $, with $ 0 \leq r < b $, such that:
+    \[ a = b \cdot q + r \]
+\end{theorem}
+\begin{lemma}{(1.3)}{}
+    If $ a = bq + r $, then $ \left( a, b \right) = \left( b, r \right) $.
+\end{lemma}
+\begin{theorem}{The Euclidean Algorithm}{}
+    If $ a $ and $ b $ are positive integers, $ b \neq 0 $ and
+    \begin{align*}
+        a = bq + r, & \qquad 0 \leq r < b \\
+        b = r q_1 + r_1, & \qquad 0 \leq r_1 < r \\
+        r = r_1 q_2 + r_2 & \qquad 0 \leq r_2 < r_1 \\
+        \vdots
+    \end{align*}
+    Then for $ k $ large enough, say $ k = t $, we have that $ r_{t-1} = r_t q_{t+1} $ and $ \left( a, b \right) = r_t $.
+\end{theorem}
+\begin{theorem}{(1.4)}{}
+    If $ \left( a, b \right) = d $, then there are integers $ x $ and $ y $ such that
+    \[ ax + by = d \]
+\end{theorem}
+\begin{corollary}{(1.1)}{}
+    If $ d \mid \left( ab \right) $ and $ \left( d, a \right) = 1 $, then $ d \mid b $.
+\end{corollary}
+\begin{corollary}{(1.2)}{}
+    Let $ \left( a, b \right) = d $, and suppose that $ c \mid a $ and $ c \mid b $, then $ c \mid d $.
+\end{corollary}
+\begin{corollary}{(1.3)}{}
+    If $ a \mid m $, $ b \mid m $, and $ \left( a, b \right) = 1 $, then $ \left( ab \right) \mid m $.
+\end{corollary}
+\begin{definition}{Prime Numbers}{}
+    A prime number is an integer that is greater than 1 and has no positive divisors other than 1 and itself. An integer that is greater than 1 but is not prime is called composite. We call 1 neither a prime nor a composite number.
+\end{definition}
+\begin{lemma}{(2.1)}{}
+    Every integer $ n > 1 $ is divisible by a prime number.
+\end{lemma}
+\begin{lemma}{(2.2)}{}
+    Every integer $ n > 1 $ can be written as a product of primes.
+\end{lemma}
+\begin{theorem}{}{}
+    There are infinitely many primes.
+\end{theorem}
+\begin{lemma}{(2.5)}{}
+    If $ p \mid \left( a b \right) $, then $ p \mid a $ or $ p \mid b $.
+\end{lemma}
+\begin{lemma}{(2.6)}{}
+    If $ p \mid \left( a_1 a_2 \dots a_k \right) $, then $ p \mid a_i $ for some $ i $, $ i = 1, 2, \dots, k $.
+\end{lemma}
+\begin{lemma}{(2.7)}{}
+    If $ q_1, q_2, \dots, q_n $ are primes, and $ p \mid \left( q_1 q_2 \dots q_k \right) $, then $ p = q_k $ for some $ k $.
+\end{lemma}
+\begin{theorem}{Fundamental Theorem of Arithmetic}{}
+    Any positive integer can be written as a product of primes in one and only one way.
+\end{theorem}
+\begin{lemma}{(3.1)}{}
+    If $ x_0, y_0 $ is a solution of $ ax + by = c $, then for any integer $ t $,
+    \begin{align*}
+        x & = x_0 + bt \\
+        y & = y_0 - at
+    \end{align*}
+    is also a solution.
+\end{lemma}
+\begin{lemma}{(3.2)}{}
+    Consider the equation $ ax + by = c $. If $ \left( a, b \right) \mid c $, then $ ax + by = c $ has a solution. If $ \left( a, b \right) \nmid c $, then $ ax + by = c $ has no solutions.
+\end{lemma}
+\begin{lemma}{(3.3)}{}
+    Consider the equation:
+    \[ ax + by = c \]
+    Suppose that $ \left( a, b \right) = 1 $ and $ \left( x_0, y_0 \right) $ is a solution, then:
+    \[ x = x_0 + bt, \quad y = y_0 - at \]
+    provides all of the solutions.
+\end{lemma}
+\begin{theorem}{(3.1)}{}
+    Consider $ ax + by = c $, if $ \left( a, b \right) \mid c $, then there are infinitely many solutions of the form
+    \[ x = x_0 + \frac{bt}{\left( a, b \right)}, \quad y = y_0 - \frac{at}{\left( a, b \right)} \]
+    Where $ x_0, y_0 $ is any solution, and $ t \in \mathbb{Z} $.
+\end{theorem}
+\begin{definition}{Congruence}{}
+    We say that $ a $ and $ b $ are congruent to each other modulo $ m $,
+    \[ a \equiv b \mod m \]
+    if $ m \mid \left( a - b \right) $.
+\end{definition}
+\begin{theorem}{(4.1)}{}
+    If $ a \equiv b \mod m $, then there exists $ k $ such that $ a = b + km $.
+\end{theorem}
+\begin{theorem}{(4.2)}{}
+    There is a unique $ r $, call this the least residue modulo $ m $.
+    \[ a \equiv r \mod m \]
+    \[ r \in \left\{ 0, 1, 2, \dots, m - 2, m - 1 \right\} \]
+\end{theorem}
+\begin{theorem}{(4.3)}{}
+    $ a \equiv b \mod m $ if and only if they have the same remainder when divided by $ m $.
+\end{theorem}
+\begin{lemma}{(4.1)}{}
+    For integers $ a, b, c, d $, we have that:
+    \begin{itemize}
+        \item $ a \equiv a \mod m $
+        \item If $ a \equiv b \mod m $, then $ b \equiv a \mod m $
+        \item If $ a \equiv b \mod m $ and $ b \equiv c \mod m $, then $ a \equiv c \mod m $
+        \item If $ a \equiv b \mod m $ and $ c \equiv d \mod m $, then $ a + c \equiv b + d \mod m $
+        \item If $ a \equiv b \mod m $ and $ c \equiv d \mod m $, then $ ac \equiv bd \mod m $
+    \end{itemize}
+\end{lemma}
+\begin{theorem}{(4.4)}{}
+    \textit{This is listed as a lemma in the in-person notes.}
+    \medskip
+    \newline
+    Suppose $ ab \equiv ac \mod m $, then if $ \left( a, m \right) = 1 $, then $ b \equiv c \mod m $.
+\end{theorem}
+\begin{theorem}{(4.5)}{}
+    \textit{This is listed as a lemma in the in-person notes.}
+    \medskip
+    \newline
+    If $ ac \equiv bc \mod m $ and $ \left( c, m \right) = d $, then $ a \equiv b \mod \frac{m}{d} $.
+\end{theorem}
+\begin{definition}{Linear Congruence}{}
+    A linear congruence is of the form
+    \[ ax \equiv b \mod m \]
+    This has a solution if and only if there are integers $ x $ and $ k $ such that
+    \[ ax = b + km \Leftrightarrow ax - km = b\]
+    These can be viewed as Diophantine equations.
+    \medskip
+    \newline
+    If one integer satisfies $ ax \equiv b \mod m $, then there are infinitely many.
+\end{definition}
+\begin{lemma}{(5.1)}{}
+    If $ \left( a, m \right) \nmid b $, then $ ax \equiv b \mod m $ has no solutions.
+\end{lemma}
+\begin{lemma}{(5.2)}{}
+    If $ \left( a, m \right) = 1 $, then $ ax \equiv b \mod m $ has exactly one solution.
+\end{lemma}
+\begin{lemma}{(5.3)}{}
+    Let $ d = \left( a, m \right) $. If $ d \mid b $, then $ ax \equiv b \mod m $ has $ d $ solutions.
+\end{lemma}
+\begin{theorem}{The Chinese Remainder Theorem}{}
+    The linear congruence system
+    \[ x \equiv a_1 \mod m_1, \qquad x \equiv a_2 \mod m_2, \quad \dots \quad, x = a_n \mod m_n \]
+    has a unique solution modulo $ m_1 \times m_2 \times \dots \times m_n $ if for each $ \left( m_i, m_j \right) $, where $ i \neq j $, $ \left( m_i, m_j \right) = 1 $.
+\end{theorem}
+\begin{lemma}{(6.1)}{}
+    If $ \left( a, m \right) = 1 $, then the least residues of
+    \[ a, \quad 2a, \quad 3a, \quad \dots, \quad \left( m - 1 \right) a \mod m \]
+    are given by
+    \[ 1, \quad 2, \quad 3, \quad \dots, \quad m - 1 \]
+    in some order
+\end{lemma}
+\begin{theorem}{Fermat's Theorem (Little Theorem)}{}
+    If $ p $ is a prime, and $ \left( a, p \right) = 1 $, then
+    \[ a^{p-1} \equiv 1 \mod p \]
+\end{theorem}
+\begin{lemma}{(6.2)}{}
+    \[ x^2 \equiv 1 \mod p \]
+    has exactly 2 solutions, $ 1 $ and $ p - 1 $.
+\end{lemma}
+\begin{definition}{Modular Multiplicative Inverse}{}
+    The modular multiplicative inverse of an integer $ a $ is an integer $ a' $ such that
+    \[ a a' \equiv 1 \mod m \]
+    If $ \left( a, p \right) = 1 $, we know that $ ax \equiv 1 \mod p $ has exactly one solution. Thus, the inverses exist for each non-zero element.
+\end{definition}
+\begin{lemma}{(6.3)}{}
+    Let $ p $ be an odd prime, and let $ a' $ be the solution of $ ax \equiv 1 \mod p $, for $ a = 1, 2, \dots, p - 1 $. Then, $ a' \equiv b' \mod p $ if and only if $ a \equiv b \mod p $. Furthermore, $ a \equiv a' \mod p $ if and only if $ a = 1 $ or $ a = p - 1 $.
+\end{lemma}
+\begin{theorem}{Wilson's Theorem}{}
+    $ p $ is a prime if and only if
+    \[ \left( p - 1 \right)! \equiv -1 \mod p \]
+\end{theorem}
+\begin{definition}{}{}
+    Let $ n $ be a positive integer. Then, $ d(n) $ is the number of positive divisors of $ n $, including $ 1 $ and $ n $. Also, $ \sigma (n) $ is the sum of the positive divisors of $ n $. That is,
+    \[ d(n) = \sum_{d \mid n} 1 \quad \text{and} \quad \sigma (n) = \sum_{d \mid n} d \]
+    (Note $ \sum_{d \mid n} $ means the sum over the positive divisors of $ n $)
+\end{definition}
+\begin{theorem}{(7.1)}{}
+    If $ p_1^{e_1} p_2^{e_2} \dots p_k^{e_k} $ is the prime-power decomposition of $ n $, then we have that
+    \[ d(n) = d \left( p_1^{e_1} \right) \times d \left( p_2^{e_2} \right) \times \dots \times d \left( p_k^{e_k} \right) \]
+\end{theorem}
+\begin{lemma}{(7.1)}{}
+    If $ p $ and $ q $ are different primes, then
+    \[ \sigma \left( p^e q^f \right) = \sigma \left( p^e \right) \cdot \sigma \left( q^f \right) \]
+\end{lemma}
+\begin{theorem}{(7.2)}{}
+    If $ p_1^{e_1} p_2^{e_2} \dots p_k^{e_k} $ is a prime-power decomposition of $ n $, then
+    \[ \sigma \left( n \right) = \sigma \left( p_1^{e_1} \right) \sigma \left( p_2^{e_2} \right) \dots \sigma \left( p_k^{e_k} \right) \]
+\end{theorem}
+\begin{definition}{Multiplicative Functions}{}
+    A function $ f $, defined for the positive integers, is said to be multiplicative if and only if
+    \[ \left( m, n \right) = 1 \quad \text{implies} \quad f \left( mn \right) = f \left( m \right) f \left( n \right) \]
+\end{definition}
+\begin{theorem}{(7.3)}{}
+    The function $ d $ is multiplicative.
+\end{theorem}
+\begin{theorem}{(7.4)}{}
+    The function $ \sigma $ is multiplicative.
+\end{theorem}
+\begin{theorem}{(7.5)}{}
+    If $ f $ is a multiplicative function and the prime power decomposition of $ n $ is $ p_1^{e_1} p_2^{e_2} \dots p_k^{e_k} $, then
+    \[ f(n) = f \left( p_1^{e_1} \right) f \left( p_2^{e_2} \right) \dots f \left( p_k^{e_k} \right) \]
+\end{theorem}
+\begin{definition}{Perfect Numbers}{}
+    A number is called perfect if and only if it is equal to the sum of its positive divisors, excluding itself. That is, a number is perfect if and only if
+    \[ \sigma \left( n \right) = 2n \]
+\end{definition}
+\begin{theorem}{(8.1) (Euclid)}{}
+    If $ 2^k - 1 $ is prime, then $ 2^{k-1} \left( 2^k - 1 \right) $ is perfect.
+\end{theorem}
+\begin{lemma}{}{}
+    If $ k $ is composite, then $ 2^k - 1 $ is composite.
+\end{lemma}
+\begin{theorem}{(8.2) (Euler)}{}
+    If $ n $ is an even perfect number, then
+    \[ n = 2^{p - 1} \left( 2^p - 1 \right) \]
+    for some prime $ p $ and $ 2^p - 1 $ is also prime.
+\end{theorem}
+\begin{definition}{Euler's $ \phi $ Function / Euler's Totient Function}{}
+    If $ m $ is a positive integer, let $ \phi \left( m \right) $ denote the number of positive integers less than or equal to $ m $ and relatively prime to $ m $.
+\end{definition}
+\begin{lemma}{(9.1)}{}
+    If $ \left( a, m \right) = 1 $ and $ r_1, r_2, \dots, r_{\phi \left( m \right)} $ are the positive integers less than $ m $ and relatively prime to $ m $, then the least residues modulo $ m $ of
+    \[ ar_1, \quad ar_2, \quad \dots, \quad ar_{\phi \left( m \right)} \]
+    are a permutation of
+    \[ r_1, \quad r_2, \dots, \quad r_{\phi \left( m \right)} \]
+\end{lemma}
+\begin{theorem}{(9.1) / Euler's Theorem}{}
+    If $ \left( a, m \right) = 1 $, then
+    \[ a^{\phi \left( m \right)} \equiv 1 \mod m \]
+\end{theorem}
+\begin{lemma}{(9.2)}{}
+    For $ p $ prime, and all positive integers $ n $,
+    \[ \phi \left( p^n \right) = p^{n-1} \left( p - 1 \right) \]
+\end{lemma}
+\begin{lemma}{(9.3)}{}
+    If $ \left( a, m \right) = 1 $ and $ a \equiv b \mod m $, then $ \left( b, m \right) = 1 $.
+\end{lemma}
+\begin{corollary}{(9.1)}{}
+    If the least residues modulo $ m $ of $ r_1, r_2, \dots, r_m $ are a permutation of $ 0, 1, \dots, m - 1 $, then $ r_1, r_2, \dots r_m $ contains exactly $ \phi \left( m \right) $ elements relatively prime to $ m $.
+\end{corollary}
+\begin{theorem}{(9.2)}{}
+    The function $ \phi $ is multiplicative.
+\end{theorem}
+\begin{theorem}{(9.3)}{}
+    If $ n $ has a prime power decomposition given by $ n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k} $. then
+    \[ \phi \left( n \right) = p_1^{e_1-1} \left( p_1 - 1 \right) p_2^{e_2-1} \left( p_2 - 1 \right) \cdots p_k^{e_k-1} \left( p_k - 1 \right) \]
+\end{theorem}
+\begin{corollary}{(9.2)}{}
+    If $ n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k} $, then
+    \[ \phi \left( n \right) = n \left( 1 - \frac{1}{p_1} \right) \left( 1 - \frac{1}{p_2} \right) \cdots \left( 1 - \frac{1}{p_k} \right) \]
+\end{corollary}
+\begin{definition}{Arithmetic Functions}{}
+    An arithmetic function is a function whose domain is the set of positive integers.    
+\end{definition}
+\begin{theorem}{(9.5)}{}
+    Let $ f $ be an arithmetic function for $ n \in \mathbb{Z} $ with $ n > 0 $. Then, consider the following arithmetic function.
+    \[ F \left( n \right) = \sum_{d \mid n} f \left( d \right) \]
+    If $ f $ is multiplicative, then $ F $ is multiplicative.
+\end{theorem}
+\begin{theorem}{Gauss' Theorem}{}
+    Let $ n \in \mathbb{Z} $ with $ n > 0 $. Then
+    \[ \sum_{d \mid n} \phi \left( d \right) = n \]
+\end{theorem}
+\begin{definition}{The Möbius $ \mu $ Function}{}
+    If $ n \in \mathbb{Z} $ with $ n > 0 $, then the Möbius $ \mu $-function, denoted $ \mu \left( n \right) $, is defined as
+    \[ \mu \left( n \right) = \begin{cases}
+        1 & \text{if } n = 1 \\
+        0 & \text{if } p^2 \mid n \text{ with } p \text{ prime} \\
+        \left( -1 \right)^r & \text{if } n = p_1 p_2 \dots p_r \text{ with } p_1, \dots, p_r \text{ distinct primes}
+    \end{cases} \]
+\end{definition}
+\begin{theorem}{(9.6)}{}
+    The Möbius $ \mu $-function is multiplicative.
+\end{theorem}
+\begin{corollary}{(9.7)}{}
+    Let $ n \in \mathbb{Z} $ with $ n > 0 $. Then
+    \[ \sum_{d \mid n} \mu \left( d \right) = \begin{cases}
+        1 & \text{if } n = 1 \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{corollary}
+\begin{theorem}{Möbius Inversion Formula}{}
+    Let $ f $ and $ g $ be arithmetic functions. Then
+    \[ f \left( n \right) = \sum_{d \mid n} g \left( d \right) \]
+    If and only if
+    \[ g \left( n \right) = \sum_{d \mid n} \mu \left( d \right) f \left( \frac{n}{d} \right) = \sum_{d \mid n} \mu \left( \frac{n}{d} \right) f \left( d \right) \]
+\end{theorem}
+\begin{definition}{Order}{}
+    The order of $ a $ modulo $ m $ is the smallest positive integer $ t $ such that
+    \[ a^t \equiv 1 \mod m \]
+\end{definition}
+\begin{theorem}{(10.1)}{}
+    Suppose that $ \left( a, m \right) = 1 $ and $ a $ has order $ t $ modulo $ m $. Then, $ a^n \equiv 1 \mod m $ if and only if $ n $ is a multiple of $ t $.
+\end{theorem}
+\begin{theorem}{(10.2)}{}
+    If $ \left( a, m \right) = 1 $ and $ a $ has order $ t $ modulo $ m $, then $ t \mid \phi \left( m \right) $.
+\end{theorem}
+\begin{theorem}{(10.3)}{}
+    If $ p $ and $ q $ are odd primes and $ q \mid a^p - 1 $, then $ q \mid a - 1 $ or $ q = 2kp + 1 $ for some integer $ k $.
+\end{theorem}
+\begin{corollary}{(10.1)}{}
+    Any divisor of $ 2^p - 1 $ is of the form $ 2kp + 1 $.
+\end{corollary}
+\begin{theorem}{(10.4)}{}
+    If the order of $ a $ modulo $ m $ is $ t $, then $ a^r \equiv a^s \mod m $ if and only if $ r \equiv s \mod t $.
+\end{theorem}
+\begin{definition}{Primitive Roots}{}
+    If $ a $ is the least residue and the order of $ a $ modulo $ m $ is $ \phi \left( m \right) $, we will say that $ a $ is a primitive root of $ m $.
+\end{definition}
+\begin{theorem}{(10.5)}{}
+    If $ g $ is a primitive root of $ m $, then the least residues of
+    \[ g, \qquad g^2, \qquad \dots, \qquad g^{\phi \left( m \right)} \]
+    are a permutation of the $ \phi \left( m \right) $ positive integers less than $ m $ and relatively prime to $ m $.
+\end{theorem}
+\begin{lemma}{(10.1)}{}
+    Suppose that $ a $ has order $ t $ modulo $ m $. Then $ a^k $ has order $ t $ modulo $ m $ if and only if $ \left( k, t \right) = 1 $.
+\end{lemma}
+\begin{corollary}{(10.2)}{}
+    Suppose that $ g $ is a primitive root of $ p $. Then the least residue of $ g^k $ is a primitive root of $ p $ if and only if $ \left( k, p-1 \right) = 1 $.
+\end{corollary}
+\begin{lemma}{(10.2)}{}
+    If $ f $ is a polynomial of degree $ n $, then
+    \[ f \left( x \right) \equiv 0 \mod p \]
+    has at most $ n $ solutions
+\end{lemma}
+\begin{lemma}{(10.3)}{}
+    If $ d \mid p - 1 $, then $ x^d \equiv 1 \mod p $ has exactly $ d $ solutions.
+\end{lemma}
+\begin{theorem}{(10.6)}{}
+    Every prime $ p $ has $ \phi \left( p - 1 \right) $ primitive roots.
+\end{theorem}
+\begin{theorem}{}{}
+    The only positive integers with primitive roots are 1, 2, 4, $ p^e $, and $ 2p^e $, where $ p $ is an odd prime.
+\end{theorem}
+\begin{theorem}{(11.1)}{}
+    Suppose that $ p $ is an odd prime. If $ p \nmid a $, then $ x^2 \equiv a \mod p $ has exactly two solutions or has no solutions.
+\end{theorem}
+\begin{definition}{Quadratic Residues}{}
+    If $ x^2 \equiv a \mod m $ has a solution, then $ a $ is called a quadratic residue modulo $ m $.
+    \medskip
+    \newline
+    If $ x^2 \equiv a \mod m $ has no solution, then $ a $ is called a quadratic non-residue modulo $ m $.
+\end{definition}
+\begin{theorem}{Euler's Criterion (11.2)}{}
+    If $ p $ is an odd prime and $ p \nmid a $, then $ x^2 \equiv a \mod p $ has a solution or no respectively, if
+    \[ a^\frac{p - 1}{2} \equiv 1 \mod p \]
+    or
+    \[ a^\frac{p - 1}{2} \equiv -1 \mod p \]
+\end{theorem}
+\begin{theorem}{(11.3)}{}
+    The Legendre symbol has the properties:
+    \begin{enumerate}
+        \item If $ a \equiv b \mod p $, then $ \left( \frac{a}{p} \right) = \left( \frac{b}{p} \right) $
+        \item If $ p \nmid a $, then $ \left( \frac{a^2}{p} \right) = 1 $
+        \item If $ p \nmid a $ and $ p \nmid b $, then $ \left( \frac{ab}{p} \right) = \left( \frac{a}{p} \right) \left( \frac{b}{p} \right) $
+    \end{enumerate}
+\end{theorem}
+\begin{theorem}{Quadratic Reciprocity Theorem (11.4)}{}
+    If $ p $ and $ q $ are odd primes and $ p \equiv q \equiv 3 \mod 4 $, then
+    \[ \left( \frac{p}{q} \right) = - \left( \frac{q}{p} \right) \]
+    If $ p $ and $ q $ are odd primes and $ p \equiv 1 \mod 4 $ or $ q \equiv 1 \mod 4 $, then
+    \[ \left( \frac{p}{q} \right) = \left( \frac{q}{p} \right) \]
+\end{theorem}
+\begin{theorem}{(11.5)}{}
+    If $ p $ is an odd prime, then
+    \[ \left( - \frac{1}{p} \right) = 1 \quad \text{if} \quad p \equiv 1 \mod 4 \]
+    \[ \left( - \frac{1}{p} \right) = -1 \quad \text{if} \quad p \equiv 3\mod 4 \]
+\end{theorem}
+\begin{theorem}{(11.6)}{}
+    If $ p $ is an odd prime, then
+    \[ \left( \frac{2}{p} \right) = 1 \quad \text{if} \quad p \equiv 1 \mod 8 \quad \text{or} \quad p \equiv 7 \mod 8 \]
+    \[ \left( \frac{2}{p} \right) = -1 \quad \text{if} \quad p \equiv 3 \mod 8 \quad \text{or} \quad p \equiv 5 \mod 8 \]
+\end{theorem}
+\begin{theorem}{Gauss's Lemma (12.1)}{}
+    Suppose that $ p $ is an odd prime, $ \left( a, p \right) = 1 $, and there are among the least residues modulo $ p $ of
+    \[ a, \qquad 2a, \qquad 3a, \qquad \dots, \qquad \frac{p - 1}{2} \cdot a \]
+    Exactly $ g $ that are strictly greater than $ \frac{p - 1}{2} $. Then,
+    \[ \left( \frac{a}{p} \right) = \left( -1 \right)^g \]
+\end{theorem}
+\begin{lemma}{(12.1)}{}
+    If $ p $ and $ q $ are different odd primes, then
+    \[ \sum_{k = 1}^\frac{p - 1}{2} \left[ \frac{kq}{p} \right] + \sum_{k = 1}^\frac{q - 1}{2} \left[ \frac{kp}{q} \right] = \frac{p - 1}{2} \cdot \frac{q - 1}{2} \]
+\end{lemma}
+\begin{theorem}{(12.4)}{}
+    If $ p $ and $ q $ are odd primes, then
+    \[ \left( \frac{p}{q} \right) \left( \frac{p}{q} \right) = \left( -1 \right)^{\frac{\left( p - 1 \right) \left( q - 1 \right)}{4}} \]
+\end{theorem}
+\begin{theorem}{(12.3)}{}
+    If $ p $ and $ 4p + 1 $ are both primes, then 2 is a primitive root modulo $ 4p + 1 $.
+\end{theorem}
+\begin{theorem}{}{}
+    If $ p \equiv 2 \mod 3 $, then all $ x^3 \equiv a \mod p $ have solutions.
+\end{theorem}
+
+\end{document}
